@@ -1,11 +1,11 @@
-import { logo } from '../assets'
+import { hoff } from '../assets/'
 
 const Hero = () => {
   return (
     <header className='w-full flex justify-center items-center flex-col'>
       <nav className='flex justify-between items-center w-full mt-2 mb-10'>
-        <img src={logo} alt="Summarizer Logo"
-        className='w-28 object-contain'/>
+        <img src={hoff} alt="Summarizer Logo"
+        className='w-40 object-contain'/>
         <button 
         type='button' 
         onClick={() => window.open('https://github.com/Hoffalypse/Article-Summary')}
