@@ -1,8 +1,12 @@
 /* eslint-disable no-unused-vars */
 import { useState, useEffect } from "react";
-
+import axios from "axios";
 import { copy, linkIcon, loader, tick } from "../assets";
-import { useLazyGetSummaryQuery } from "../services/article";
+// import { useLazyGetSummaryQuery } from "../services/article";
+const rapidApiKey = import.meta.env.VITE_RAPID_API_ARTICLE_KEY;
+
+
+
 
 const Demo = () => {
   const [article, setArticle] = useState({
@@ -10,7 +14,9 @@ const Demo = () => {
     summary: "",
   });
   const [allArticles, setAllArticles] = useState([]);
-  const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+  // const [getSummary, { error, isFetching }] = useLazyGetSummaryQuery();
+  const [loading, setLoading] = useState(false);
+  const[error, setError] = useState()
   const [copied, setCopied] = useState("");
 
   useEffect(() => {
@@ -26,22 +32,44 @@ const Demo = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const options = {
+      method: 'GET',
+      url: 'https://article-extractor-and-summarizer.p.rapidapi.com/summarize',
+      params: {url: article.url, length: '3'},
+      headers: {
+        'X-RapidAPI-Key': rapidApiKey,
+        'X-RapidAPI-Host': 'article-extractor-and-summarizer.p.rapidapi.com'
+      }
+    };
+    setLoading(true)
     const existingArticle = allArticles.find(
       (item) => item.url === article.url
     );
 
     if (existingArticle) return setArticle(existingArticle);
 
-    const { data } = await getSummary({ articleUrl: article.url });
-    if (data?.summary) {
-      const newArticle = { ...article, summary: data.summary };
-      const updatedAllArticles = [newArticle, ...allArticles];
+     axios.request(options)
+    .then(function (response) {
+     
+      if (response.data.summary) {
+        const newArticle = { ...article, summary: response.data.summary };
+        const updatedAllArticles = [newArticle, ...allArticles];
+  
+        // update state and local storage
+        setArticle(newArticle);
+        setAllArticles(updatedAllArticles);
+        localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
+      }
+      setLoading(false)
+    }).catch(function (err) {
+      console.error(err);
+      setError(err)
+      setLoading(false)
+    });
 
-      // update state and local storage
-      setArticle(newArticle);
-      setAllArticles(updatedAllArticles);
-      localStorage.setItem("articles", JSON.stringify(updatedAllArticles));
-    }
+  
+
+    
   };
 
   const handleCopy = (copyUrl) => {
@@ -101,9 +129,10 @@ const Demo = () => {
       </div>
       {/* Display Results */}
       <div className="my-10 max-w-full flex justify-center items-center">
-        {isFetching ? (
+        {loading ? (
           <img src={loader} alt="loader" className="w-20 h-20 object-contain" />
-        ) : error ? (
+        ) 
+        : error ? (
           <p className="font-inter font-bold text-black text-center">
             Well, that was not supposed to happen :/
             <br />
@@ -111,7 +140,8 @@ const Demo = () => {
               {error?.data.error}
             </span>
           </p>
-        ) : (
+        ) 
+        : (
           article.summary && (
             <div className="flex flex-col gap-3">
               <h2 className="font-satoshi font-bold text-gray-600 text-xl">
