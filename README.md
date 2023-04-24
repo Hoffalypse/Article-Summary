@@ -7,7 +7,7 @@
 1. [Description](#description)
 3. [Usage](#usage)
 4. [Technology](#technology)
-4. [Preview](#website preview)
+4. [Preview](#preview)
 4. [Installation](#installation)
 6. [Contributing](#contributing)
 7. [Resources](#resources)
@@ -34,7 +34,7 @@ This app is deployed using Netifly at <https://hoffnotes.netlify.app/>. On page 
 7. `Vite`: React build.
 
 
-## Website Preview
+## Preview
 
  <br/>
  <p style="text-align: center">
