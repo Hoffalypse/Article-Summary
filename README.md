@@ -61,7 +61,7 @@ Contributor Covenant Code of Conduct
 ## Resources
 
 1. GitHub Repo: <https://github.com/Hoffalypse/Article-Summary>
-2. Heroku Deploy: <https://hoffnotes.netlify.app/> 
+2. Netifly Deploy: <https://hoffnotes.netlify.app/> 
 
 
 ## License
