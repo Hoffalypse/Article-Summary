@@ -20,7 +20,7 @@ const Hero = () => {
         <span className='orange_gradient'>OpenAI GPT-4</span>
       </h1>
       <h2 className='desc'>
-        Simplify your reading with HoffNotes, an open-source article summarizer that transforms lengthy articles into clear and concise summaries. 
+        Simplify your reading with HoffNotes, an open-source article summarizer that transforms lengthy articles into clear and concise summaries. Just enter the URL below and instantly see a summary of that article!
       </h2>
     </header>
   )
